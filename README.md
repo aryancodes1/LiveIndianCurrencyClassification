@@ -6,7 +6,7 @@
 
 ## Working
 
-#### In my project, I applied transfer learning to boost the accuracy of predictions on my dataset. Specifically, I chose the Xception Deep Learning Algorithm because it showed the highest accuracy. To tailor it for my dataset, I added my own neural network layers. By tweaking various hyperparameters, I fine-tuned the model to achieve the best training and testing errors. This way, I made sure the algorithm worked efficiently for my specific needs
+#### In my project, I applied transfer learning to boost the accuracy of predictions on my dataset. Specifically, I chose the Xception Deep Learning Algorithm because it showed the highest accuracy. My dataset includes images of 10,20,50,100,200,500,2000 Rupees Images.To tailor it for my dataset, I added my own neural network layers. By tweaking various hyperparameters, I fine-tuned the model to achieve the best training and testing errors. This way, I made sure the algorithm worked efficiently for my specific needs
 
 ## Architecture 
 ![Alt text](structure.png)

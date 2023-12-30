@@ -22,7 +22,7 @@ model2.compile(
 )
 
 
-img = cv2.imread('/Users/arunkaul/Desktop/Currency ML Project/10_test.jpg')
+img = cv2.imread('/Users/arunkaul/Desktop/Currency ML Project/2000_test.jpg')
 plt.imshow(img)
 
 img = np.asarray(img) / (255.0)
@@ -30,8 +30,12 @@ img = img.reshape(-1, 299, 299, 3)
 
 prediction = model2.predict(img)
 if np.array(prediction)[0,np.argmax(prediction)] >= 0.8:
-    plt.title(d[np.argmax(prediction)]+" Rupees")
-    plt.show()
+    if np.argmax(prediction) != 2:
+        plt.title(d[np.argmax(prediction)]+" Rupees")
+        plt.show()
+    elif np.argmax(prediction) == 2:
+         plt.title(d[np.argmax(prediction)]+" Rupees(No Longer In Use)")
+         plt.show()
 else:
     plt.title("This Is Not Indian Currency")
     plt.show()
