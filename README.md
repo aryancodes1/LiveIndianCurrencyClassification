@@ -16,3 +16,6 @@
 
 ## Output
 ![Alt text](<Output Images/Output_Pic1.png>)
+
+## Specifications
+#### Input Image Size : 299x299
