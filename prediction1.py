@@ -29,5 +29,10 @@ img = np.asarray(img) / (255.0)
 img = img.reshape(-1, 299, 299, 3)
 
 prediction = model2.predict(img)
-plt.title(d[np.argmax(prediction)]+" Rupees")
-plt.show()
+if np.array(prediction)[0,np.argmax(prediction)] >= 0.8:
+    plt.title(d[np.argmax(prediction)]+" Rupees")
+    plt.show()
+else:
+    plt.title("This Is Not Indian Currency")
+    plt.show()
+    
