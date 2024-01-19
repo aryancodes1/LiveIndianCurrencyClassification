@@ -15,7 +15,7 @@
 ![Alt text](accuracy.png)
 
 ## Output
-![Alt text](<Output Images/Output_Pic1.png>)
+![Alt text](Output_Image1.png)
 
 ## Specifications
 #### Input Image Size : 299x299
