@@ -1,65 +1,42 @@
-import tensorflow as tf
-import matplotlib.pyplot as plt
+import cv2
 import numpy as np
+from keras.models import load_model
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import *
 from tensorflow.keras.losses import *
 from tensorflow.keras.layers import *
-from tensorflow.keras.applications.xception import Xception
-import cv2
-import numpy as np
-from keras.models import load_model
+import tensorflow as tf
 
 
-class Indian_Currency_To_Text:
-    def __init__(self):
-        pass
+model = load_model("model_2.h5")
+d = {0: "50", 1: "20", 2: "2000", 3: "10", 4: "100", 5: "500", 6: "200"}
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    loss=tf.keras.losses.sparse_categorical_crossentropy,
+    metrics=["accuracy"],
+)
+frameWidth = 680
+frameHeight = 480
+cap = cv2.VideoCapture(0)
+cap.set(3, frameWidth)
+cap.set(4, frameHeight)
+cap.set(10, 150)
 
-    def display_text(self, path_img, show_plot=False):
-        self.path_img = path_img
-        d = {0: "50", 1: "20", 2: "2000", 3: "10", 4: "100", 5: "500", 6: "200"}
-
-        model2 = load_model("model_2.h5")
-        model2.summary()
-        model2.compile(
-            optimizer=Nadam(0.00075),
-            loss=tf.keras.losses.sparse_categorical_crossentropy,
-            metrics=["accuracy"],
-        )
-
-        img = cv2.imread(self.path_img)
-        plt.imshow(img)
-        img = np.asarray(img) / (255.0)
-        img = img.reshape(-1, 299, 299, 3)
-
-        prediction = model2.predict(img)
-
-        if show_plot == False:
-            if np.array(prediction)[0, np.argmax(prediction)] >= 0.8:
-                if np.argmax(prediction) != 2:
-                    return d[np.argmax(prediction)] + " Rupees"
-                elif np.argmax(prediction) == 2:
-                    return d[np.argmax(prediction)] + " Rupees(No Longer In Use)"
+while cap.isOpened():
+    success, img = cap.read()
+    if success:
+        img = cv2.flip(img, 1)
+        img = cv2.resize(img, (299, 299))
+        cv2.imshow("Result", img)
+        img = np.array(img)
+        img = img.reshape(1, 299, 299, 3)
+        img = img / 255.0
+        if 0xFF == ord("q"):
+            break
+        elif cv2.waitKey(1):
+            pred = model.predict(img, verbose=0)[0]
+            if pred[np.argmax(pred)] >= 0.8:
+                cv2.setWindowTitle("Result", title=d[np.argmax(pred)])
+                print(pred[np.argmax(pred)])
             else:
-                return "This Is Not Indian Currency"
-            
-            
-        if show_plot == True:
-            if np.array(prediction)[0, np.argmax(prediction)] >= 0.8:
-                if np.argmax(prediction) != 2:
-                    plt.title(d[np.argmax(prediction)] + " Rupees")
-                    plt.show()
-                    return d[np.argmax(prediction)] + " Rupees"
-                elif np.argmax(prediction) == 2:
-                    plt.title(d[np.argmax(prediction)] + " Rupees(No Longer In Use)")
-                    plt.show()
-                    return d[np.argmax(prediction)] + " Rupees(No Longer In Use)"
-            else:
-                plt.title("This Is Not Indian Currency")
-                plt.show()
-                return "This Is Not Indian Currency"
-
-## Use Of the Class
-
-Currency = Indian_Currency_To_Text()
-print(Currency.display_text(path_img = '10_test.jpg',show_plot = True))
+                cv2.setWindowTitle("Result", title="No Currency")

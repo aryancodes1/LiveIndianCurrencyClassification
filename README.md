@@ -22,5 +22,5 @@
 
 ## How To Use
 - Download prediction1.py and model2.h5
-- import class Indian_Currency_To_Text to your code and use it as shown in the predicition1.py file.
+-  run model.py to get live webcam for classification
 
